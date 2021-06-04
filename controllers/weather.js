@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const OWM_API_KEY = "17a20a2f492c6a38755ff1c56df8dcc6";
+const OWM_API_KEY = process.env.OWM_API_KEY;
 const weatherModel = require("../model/OWM_weather");
 
 const weatherController = {

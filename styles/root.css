@@ -1,3 +1,12 @@
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 98%;
+  height: 75%;
+  margin-left: 2%;
+  margin-top: 2%;
+}
 .ui-button {
   background: #3887be;
   color: #fff;
@@ -25,6 +34,58 @@
 
 #map-container {
   position: relative;
-  width: 40vw;
+  width: 55vw;
   height: 100vh;
+}
+
+.table {
+  text-align: center;
+  font-size: 0.6em;
+}
+
+#weather {
+  margin: 2%;
+  overflow-x: auto;
+}
+
+#destination {
+  text-align: center;
+}
+
+.date {
+  display: flex;
+  flex-basis: 30%;
+}
+
+.weatherIcon {
+  width: 20%;
+}
+
+.breakdownHeader {
+  font-weight: bold;
+}
+
+.dropdown {
+  float: right;
+}
+
+@media only screen and (max-width: 850px) {
+  .grid-container {
+    grid-template-columns: auto;
+  }
+  #map-container {
+    width: auto;
+    height: 75vh;
+  }
+  #map {
+    width: 90%;
+    height: auto;
+    margin-left: 5%;
+  }
+  .mapboxgl-canvas {
+    height: 100vh;
+  }
+  #weather {
+    margin: 5%;
+  }
 }
