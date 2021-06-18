@@ -29,7 +29,7 @@ const formatWeather = (forecast) => {
             "Evening": `${forecast[day].temp.eve.toFixed(1)}${degrees}F`,
             "Night": `${forecast[day].temp.night.toFixed(1)}${degrees}F`,
             "Humidity": `${forecast[day].humidity}%`,
-            "Chance_of_Rain": `${forecast[day].pop * 100}%`,
+            "Chance_of_Rain": `${forecast[day].pop.toFixed(1) * 100}%`,
             "Weather": daily_weather_conditions
         };
         formatted_forecast.push(daily_data);

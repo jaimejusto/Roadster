@@ -7,7 +7,6 @@ navigator.geolocation.getCurrentPosition(
 );
 
 function successLocation(position) {
-
     setupMap([position.coords.longitude, position.coords.latitude]);
 };
 
@@ -15,6 +14,19 @@ function errorLocation() {
     setupMap([-4.42762, 50.38330]);
 };
 
+function getCoordinatesFromDestination(directions) {
+    const destinationObject = directions.getDestination();
+    const coordinates = destinationObject.geometry.coordinates;
+    return coordinates;
+};
+
+async function setupForecast(directions) {
+    const coordinates = getCoordinatesFromDestination(directions);
+    const [destinationLat, destinationLon] = getLatitudeLongitude(coordinates);
+    const destinationInfo = await getDestinationInfo(destinationLat, destinationLon);
+    localStorage.setItem("destination", JSON.stringify(destinationInfo));
+    displayForecast(destinationInfo);
+};
 function setupMap(center) {
     const map = new mapboxgl.Map({
         container: "map",
@@ -22,33 +34,17 @@ function setupMap(center) {
         center: center, // starting position
         zoom: 15,
     });
-    
     const nav = new mapboxgl.NavigationControl();
     map.addControl(nav, "top-right");
-
-    const directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken
-    });
+    const directions = new MapboxDirections({accessToken: mapboxgl.accessToken});
     map.addControl(directions, "top-left");
-
-    map.on("load", function() {
-        directions.setOrigin(center);
-    })
-
-    directions.on("route", async function() {
-        console.log("getting destination");
-        const destinationObject = directions.getDestination();
-        const coordinates = destinationObject.geometry.coordinates;
-        const [destinationLat, destinationLon] = getLatitudeLongitude(coordinates);
-        const destinationInfo = await getDestinationInfo(destinationLat, destinationLon);
-        localStorage.setItem("destination", JSON.stringify(destinationInfo));
-        displayForecast(destinationInfo);
-    })
+    map.on("load", () => {directions.setOrigin(center);});
+    directions.on("route", () => {setupForecast(directions)});
 };
 
 const getDestinationInfo = async (latitude, longitude) => {
     /**
-     * Retrieves destination weather forecast and city name.
+     * Retrieves destination weather forecast and city name and state.
      */
     const weather = await returnApiDestinationResults("weather", latitude, longitude);
     const destination = await returnApiDestinationResults("geocode", latitude, longitude);
@@ -296,7 +292,6 @@ const createBreakdownHeader = (weather, temp) => {
     let breakdownHeader = createElementWithClass("h6", "breakdownHeader");
     returnWeatherAdvice(intTemp)
         .then( advice => {
-            console.log(advice);
             breakdownHeader.innerText = `${descriptions.join(" ")} ${advice}` ;
         });
     return breakdownHeader;

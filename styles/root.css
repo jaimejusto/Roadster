@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 98%;
+  width: 95%;
   height: 75%;
   margin-left: 2%;
   margin-top: 2%;
@@ -34,7 +34,7 @@
 
 #map-container {
   position: relative;
-  width: 55vw;
+  width: 50vw;
   height: 100vh;
 }
 
@@ -44,8 +44,8 @@
 }
 
 #weather {
-  margin: 2%;
-  overflow-x: auto;
+  margin-top: 2%;
+  margin-right: 2%
 }
 
 #destination {
